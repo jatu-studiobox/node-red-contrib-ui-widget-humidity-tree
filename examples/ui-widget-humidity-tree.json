@@ -1,0 +1,93 @@
+[
+    {
+        "id": "30310cb84ab624d2",
+        "type": "tab",
+        "label": "UI Widget Humidity-Tree Example",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6dfb045da232d480",
+        "type": "ui_widget_humidity_tree",
+        "z": "30310cb84ab624d2",
+        "group": "fe8c8f98cc2d3635",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "title": "Lettuce Humid.",
+        "colorHumidMax": "#006000",
+        "colorHumidMin": "#945818",
+        "x": 550,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1a8555fcf74871e2",
+        "type": "inject",
+        "z": "30310cb84ab624d2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "424a41ad75c3debb"
+            ]
+        ]
+    },
+    {
+        "id": "424a41ad75c3debb",
+        "type": "function",
+        "z": "30310cb84ab624d2",
+        "name": "",
+        "func": "msg.payload = Math.floor(Math.random() * 100);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 120,
+        "wires": [
+            [
+                "6dfb045da232d480"
+            ]
+        ]
+    },
+    {
+        "id": "fe8c8f98cc2d3635",
+        "type": "ui_group",
+        "name": "Home",
+        "tab": "30117d749770344e",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "30117d749770344e",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

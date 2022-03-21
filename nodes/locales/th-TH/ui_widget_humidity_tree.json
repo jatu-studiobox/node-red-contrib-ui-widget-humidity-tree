@@ -1,0 +1,16 @@
+{
+    "ui_widget_humidity_tree": {
+        "label": {
+            "name": "Name",
+            "widgetConfig": "กำหนดข้อมูลสำหรับ Widget",
+            "colorHumidMax": "สีความชื้นที่ 100%",
+            "colorHumidMin": "สีความชื้นที่ 0%",
+            "title": "ชื่อเรื่อง"
+        },
+        "errors": {
+            "no-group": "โปรดใส่ group สำหรับ widget",
+            "payloadRequired": "ต้องการค่า payload",
+            "payloadInvalid": "payload ไม่ถูกต้อง"
+        }
+    }
+}
