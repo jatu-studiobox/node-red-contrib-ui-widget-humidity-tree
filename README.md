@@ -10,11 +10,11 @@ npm install @studiobox/node-red-contrib-ui-widget-humidity-tree
 
 ### Node Settings
 
-
+![humidity-tree-widget-settings](https://user-images.githubusercontent.com/43282496/159228748-7e3b6e1c-35af-4cb5-91b2-7e103588cb70.png)
 
 ### Widget Display
 
-
+![humidity-tree-widget](https://user-images.githubusercontent.com/43282496/159228823-743d5618-9f22-4c62-85b1-4b761916c811.png)
 
 #### Description
 
