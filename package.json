@@ -1,11 +1,15 @@
 {
   "name": "@studiobox/node-red-contrib-ui-widget-humidity-tree",
-  "version": "0.5.0",
-  "description": "Easy to use Node-RED UI Widget on Node-RED Dashboard for display humidity of tree",
-  "author": "jatu-studiobox",
+  "version": "0.5.1",
+  "description": "Easy to use Node-RED UI Widget on Node-RED Dashboard for display humidity data in virtual tree. ",
+  "author": "Jatu StudioBox <inno.studiobox@gmail.com>",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/jatu-studiobox/node-red-contrib-ui-widget-humidity-tree/issues"
+  "url" : "https://github.com/jatu-studiobox/node-red-contrib-ui-widget-humidity-tree/issues",
+  "email" : "inno.studiobox@gmail.com",
+  "homepage": "https://github.com/jatu-studiobox/node-red-contrib-ui-widget-humidity-tree#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jatu-studiobox/node-red-contrib-ui-widget-humidity-tree.git"
   },
   "engines": {
     "node": "^12.0.0 || ^14.19.0 || >=16.0.0"
@@ -27,10 +31,12 @@
       "ui_widget_thermometer": "nodes/ui_widget_humidity_tree.js"
     }
   },
-  "main": "nodes/ui_widget_humidity_tree.js",
-  "repository": {
-    "type": "git"
-  },
+  "maintainers": [
+    {
+      "name": "Jatu StudioBox",
+      "email": "inno.studiobox@gmail.com"
+    }
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }
