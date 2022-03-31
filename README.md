@@ -6,7 +6,7 @@
 
 ![palette-node](https://user-images.githubusercontent.com/43282496/161121431-86a44b67-ba69-4e71-8c80-6d193250e30e.png)
 
-### Getting Started
+## Getting Started
 1. First, install <a href="https://nodered.org/docs/getting-started/local" target="_blank">Node-RED</a> by follow Node-RED installation guideline.
 
 2. Install <a href="https://flows.nodered.org/node/node-red-dashboard" target="_blank">Node-RED Dashboard</a> by follow Node-RED Dashboard installation guideline.
@@ -23,7 +23,7 @@ npm install @studiobox/node-red-contrib-ui-widget-humidity-tree
 node-red
 ```
 
-### Dashboard Example
+## Dashboard Example
 
 ![example-humid-tree](https://user-images.githubusercontent.com/43282496/161120629-e41cff6f-b1b0-4094-a2df-85658a40a237.png)
 
