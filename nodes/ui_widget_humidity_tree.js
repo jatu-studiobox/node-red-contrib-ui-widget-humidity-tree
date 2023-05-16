@@ -1,5 +1,6 @@
 module.exports = function (RED) {
     function HTML(config) {
+        const configAsJson = JSON.stringify(config);
         let displayName = "";
         if (config.title !== "") {
             displayName = "<div class='widgetTitle'>" + config.title + "</div>";
@@ -104,6 +105,7 @@ module.exports = function (RED) {
     color: red;
     width: 100%;
     text-align: center;
+    display: none;
 }
 .widgetTitle {
     font-size: 1.2em;
@@ -113,7 +115,7 @@ module.exports = function (RED) {
     color: black;
 }
 </style>
-<div class="widgetTreeContainer" id="item_{{$id}}">
+<div class="widgetTreeContainer" id="tree_item_{{$id}}">
     <div style="width: 170px;">
         <div class="tree">
             <div class="treebody"></div>
@@ -132,6 +134,7 @@ module.exports = function (RED) {
             </div>
         </div>
     </div>` + displayName + `<div class="error">error</div>
+    <input type='hidden' ng-init='init(` + configAsJson + `)'>
 </div>`;
         return html;
     }
@@ -233,47 +236,85 @@ module.exports = function (RED) {
                         }
                     },
                     initController: function ($scope) {
+                        let divWidget;
                         $scope.flag = true;     // not sure if this is needed?
-                        $scope.$watch('msg', function (msg) {
-                            function load(humidWidget, payload, msg) {
-                                const setColor = getGradient(payload / 100, msg);
-                                $(humidWidget).find(".leafTop").css("background-color", setColor);
-                                $(humidWidget).find(".leafMiddle").css("background-color", setColor);
-                                $(humidWidget).find(".leaf").css("background-color", setColor);
-                            }
-    
-                            function getGradient(ratio, msg) {
-                                const color1 = msg.colorHumidMax.substring(1);
-                                const color2 = msg.colorHumidMin.substring(1);
-                                const hex = function (x) {
-                                    x = x.toString(16);
-                                    return (x.length == 1) ? '0' + x : x;
-                                };
-    
-                                const r = Math.ceil(parseInt(color1.substring(0, 2), 16) * ratio + parseInt(color2.substring(0, 2), 16) * (1 - ratio));
-                                const g = Math.ceil(parseInt(color1.substring(2, 4), 16) * ratio + parseInt(color2.substring(2, 4), 16) * (1 - ratio));
-                                const b = Math.ceil(parseInt(color1.substring(4, 6), 16) * ratio + parseInt(color2.substring(4, 6), 16) * (1 - ratio));
-                                return '#' + hex(r) + hex(g) + hex(b);
-                            }
+                        // Add scope variables for switching tab
+                        $scope.inited = false;
+                        $scope.percentHumid = 0;
+                        $scope.colorHumidMax = "#000000";
+                        $scope.colorHumidMin = "#000000";
 
+                        const getGradient = function (ratio, colorHumidMax, colorHumidMin) {
+                            const color1 = colorHumidMax.substring(1);
+                            const color2 = colorHumidMin.substring(1);
+                            const hex = function (x) {
+                                x = x.toString(16);
+                                return (x.length == 1) ? '0' + x : x;
+                            };
+
+                            const r = Math.ceil(parseInt(color1.substring(0, 2), 16) * ratio + parseInt(color2.substring(0, 2), 16) * (1 - ratio));
+                            const g = Math.ceil(parseInt(color1.substring(2, 4), 16) * ratio + parseInt(color2.substring(2, 4), 16) * (1 - ratio));
+                            const b = Math.ceil(parseInt(color1.substring(4, 6), 16) * ratio + parseInt(color2.substring(4, 6), 16) * (1 - ratio));
+                            return '#' + hex(r) + hex(g) + hex(b);
+                        }
+
+                        const setHumid = function (humidWidget, percentHumid, colorHumidMax, colorHumidMin, isErr, errMessage) {
+                            // Hide error section
+                            const error = $(humidWidget).find(".error");
+                            $(error).hide();
+
+                            let setColor = "#000000";
+
+                            // Validate error
+                            if (isErr) {
+                                // set display error section
+                                $(error).show();
+                                $(error).text("Error: " + errMessage);
+                                // display percent
+                                $(humidWidget).find(".percent-current").text("-%");
+                            } else {
+                                // get gradient color
+                                setColor = getGradient(percentHumid / 100, colorHumidMax, colorHumidMin);
+                                // display percent
+                                $(humidWidget).find(".percent-current").text(percentHumid.toString() + "%");
+                            }
+                            // set display color
+                            $(humidWidget).find(".leafTop").css("background-color", setColor);
+                            $(humidWidget).find(".leafMiddle").css("background-color", setColor);
+                            $(humidWidget).find(".leaf").css("background-color", setColor);
+                        }
+
+                        // init widget
+                        $scope.init = function (config) {
+                            $scope.config = config;
+                            divWidget = '#tree_item_' + $scope.$eval('$id');
+                            let stateCheck = setInterval(function () {
+                                if (document.querySelector(divWidget) && $scope.percentHumid) {
+                                    console.log(divWidget);
+                                    clearInterval(stateCheck);
+                                    $scope.inited = true;
+                                    setHumid(divWidget, $scope.percentHumid, $scope.colorHumidMax, $scope.colorHumidMin, false, "");
+                                    // setMercury(divWidget, $scope.percentHumid, $scope.percent, $scope.unit, $scope.numberOfDecimals, false, "");
+                                    $scope.percentHumid = 0;
+                                    $scope.colorHumidMax = "#000000";
+                                    $scope.colorHumidMin = "#000000";
+                                }
+                            }, 40);
+                        };
+                        $scope.$watch('msg', function (msg) {
                             if (!msg) {
                                 // Ignore undefined msg
                                 return;
                             }
-                            // Gathering payload
-                            const payload = msg.payload;
-                            const humidWidget = document.getElementById("item_" + $scope.$eval('$id'));
-                            const error = $(humidWidget).find(".error");
-                            $(error).hide();
-                            // Validate payload
-                            if (msg.isErr) {
-                                $(error).show();
-                                $(error).text("Error: " + msg.errMessage);
-                                load(humidWidget, 0, msg);
-                                $(humidWidget).find(".percent-current").text("0%");
-                            } else {
-                                load(humidWidget, payload, msg);
-                                $(humidWidget).find(".percent-current").text(payload.toString() + "%");
+                            if (msg && msg.hasOwnProperty("payload") && typeof msg.payload === 'number') {
+                                if ($scope.inited === false) {
+                                    // Gathering payload
+                                    $scope.percentHumid = parseInt(msg.payload);
+                                    $scope.colorHumidMax = msg.colorHumidMax;
+                                    $scope.colorHumidMin = msg.colorHumidMin;
+                                    return;
+                                }
+                                setHumid(divWidget, msg.payload, msg.colorHumidMax, msg.colorHumidMin, msg.isErr, msg.errMessage);
                             }
                         });
                     }
