@@ -293,7 +293,6 @@ module.exports = function (RED) {
                                     clearInterval(stateCheck);
                                     $scope.inited = true;
                                     setHumid(divWidget, $scope.percentHumid, $scope.colorHumidMax, $scope.colorHumidMin, false, "");
-                                    // setMercury(divWidget, $scope.percentHumid, $scope.percent, $scope.unit, $scope.numberOfDecimals, false, "");
                                     $scope.percentHumid = 0;
                                     $scope.colorHumidMax = "#000000";
                                     $scope.colorHumidMin = "#000000";
