@@ -290,7 +290,6 @@ module.exports = function (RED) {
                             divWidget = '#tree_item_' + $scope.$eval('$id');
                             let stateCheck = setInterval(function () {
                                 if (document.querySelector(divWidget) && $scope.percentHumid) {
-                                    console.log(divWidget);
                                     clearInterval(stateCheck);
                                     $scope.inited = true;
                                     setHumid(divWidget, $scope.percentHumid, $scope.colorHumidMax, $scope.colorHumidMin, false, "");

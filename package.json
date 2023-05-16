@@ -1,6 +1,6 @@
 {
   "name": "@studiobox/node-red-contrib-ui-widget-humidity-tree",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Easy to use Node-RED UI Widget on Node-RED Dashboard for display humidity data in virtual tree. ",
   "author": "Jatu StudioBox <inno.studiobox@gmail.com>",
   "license": "Apache-2.0",
